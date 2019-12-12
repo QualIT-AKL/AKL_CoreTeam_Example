@@ -1,0 +1,128 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.generictest.initial</groupId>
+  <artifactId>initial</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+      <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>2.3.1</version> <!-- error on version 3.0.2 -->
+        <!-- <scope>test</scope> -->
+      </dependency>
+      <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java8</artifactId>
+        <version>2.3.1</version> <!-- error on version 3.0.2 -->
+        <!-- <scope>test</scope> -->
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>3.141.59</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-testng -->
+      <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-testng</artifactId>
+        <version>2.3.1</version>
+        <!--
+        <exclusions>
+          <exclusion>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+          </exclusion>
+        </exclusions>
+        -->
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>6.9.10</version>
+        <!-- <scope>test</scope> -->
+      </dependency>
+  </dependencies>
+  
+  <properties>
+    <acttimestamp>${maven.build.timestamp}</acttimestamp>
+    <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+	  <maven.compiler.source>8</maven.compiler.source> 
+	  <maven.compiler.target>8</maven.compiler.target> 
+  </properties>
+ 
+  <build>
+    <plugins>
+      <!-- Surefire plugin settings -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.0</version>
+        <configuration>
+          <systemPropertyVariables>
+            <timestamp>${acttimestamp}</timestamp>
+          </systemPropertyVariables>
+          <suiteXmlFiles>
+            <suiteXmlFile>testng.xml</suiteXmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>
+      <!-- END OF Surefire plugin settings -->
+      
+      <!-- Failsafe plugin settings -->
+      <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.22.0</version>
+        <executions>
+          <execution>
+            <id>verify</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+            <configuration>
+              <systemPropertyVariables>
+                <timestamp>${acttimestamp}</timestamp>
+              </systemPropertyVariables>
+              <suiteXmlFiles>
+                <suiteXmlFile>testng.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+      <!-- END OF Failsafe plugin settings -->
+      
+      <!-- Maven resources plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.7</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/reports/cucumber-reports/${acttimestamp}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/target/cucumber-html-report</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- END OF Maven resources plugin -->
+    </plugins>
+  </build>
+</project>
